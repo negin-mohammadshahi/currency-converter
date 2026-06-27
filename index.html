@@ -196,6 +196,18 @@
     }
 
     #copyBtn:hover { background: #F4F6F8; color: var(--text-dark); }
+
+    .irr-note {
+        font-size: 12px;
+        color: #92702A;
+        background: #FEF6E7;
+        border: 1px solid #F5E3B9;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin: 14px 0 0;
+        text-align: center;
+        line-height: 1.4;
+    }
 </style>
 </head>
 <body>
@@ -242,6 +254,8 @@
             <p id="result"></p>
         </div>
 
+        <p id="irrNote" class="irr-note" style="display:none;">⚠️ Official rate shown — may differ from Iran's free-market rate.</p>
+
         <button id="copyBtn" onclick="copyResult()">Copy result</button>
     </div>
 
@@ -253,6 +267,7 @@
         const resultBox = document.getElementById('resultBox');
         const rateInfoEl = document.getElementById('rateInfo');
         const copyBtn = document.getElementById('copyBtn');
+        const irrNote = document.getElementById('irrNote');
 
         let debounceTimer;
         let lastResultText = '';
@@ -301,8 +316,11 @@
                 showResult('Enter an amount to convert', true);
                 rateInfoEl.innerText = '';
                 copyBtn.style.display = 'none';
+                irrNote.style.display = 'none';
                 return;
             }
+
+            irrNote.style.display = (from === 'IRR' || to === 'IRR') ? 'block' : 'none';
 
             showResult('Calculating…', false);
 
@@ -330,6 +348,7 @@
                 showResult('Could not fetch exchange rates. Please try again.', true);
                 rateInfoEl.innerText = '';
                 copyBtn.style.display = 'none';
+                irrNote.style.display = 'none';
             }
         }
 
